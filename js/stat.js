@@ -13,6 +13,10 @@ const BAR_GAP = 50;
 const BAR_WIDTH = 40;
 const MAX_HEIGHT_BAR = 150;
 const TIMES_HEIGHT = 160;
+const WHITE_COLOR = `#fff`;
+const BLACK_COLOR = `#000`;
+const BLACK_OPACITY = `rgba(0, 0, 0, 0.7)`;
+const RED_COLOR = `rgba(255, 0, 0, 1)`;
 
 const renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -39,21 +43,35 @@ const getMaxElement = function (arr) {
 };
 
 window.renderStatistics = function (ctx, names, times) {
-  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, `rgba(0, 0, 0, 0.7)`);
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, `#fff`);
-  renderText(ctx, `#000`);
+  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, BLACK_OPACITY);
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, WHITE_COLOR);
+  renderText(ctx, BLACK_COLOR);
 
   let maxTime = getMaxElement(times);
 
   for (let i = 0; i < names.length; i++) {
-    ctx.fillText(names[i], CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + BAR_GAP + BAR_WIDTH + FONT_GAP + MAX_HEIGHT_BAR);
-    ctx.fillText(Math.round(times[i]), CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - (TIMES_HEIGHT * times[i]) / maxTime - FONT_GAP * 2);
-    if (names[i] === `Вы`) {
-      ctx.fillStyle = `rgba(255, 0, 0, 1)`;
-    } else {
-      ctx.fillStyle = `hsl(237, ${100 * Math.random()}%, 50%)`;
-    }
-    ctx.fillRect(CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - (MAX_HEIGHT_BAR * times[i]) / maxTime - FONT_GAP * 2, BAR_WIDTH, (MAX_HEIGHT_BAR * times[i]) / maxTime);
-    ctx.fillStyle = `#000`;
+    let X_COORDINATE = CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i;
+    let HEIGHT_FOR_TIME = (MAX_HEIGHT_BAR * times[i]) / maxTime;
+    let NICKNAME = `Вы`;
+    let RANDOM_COLOR = `hsl(237, ${100 * Math.random()}%, 50%)`;
+
+    ctx.fillText(
+      names[i],
+      X_COORDINATE,
+      CLOUD_Y + BAR_GAP + BAR_WIDTH + FONT_GAP + MAX_HEIGHT_BAR
+    );
+    ctx.fillText(
+      Math.round(times[i]),
+      X_COORDINATE,
+      CLOUD_HEIGHT - (TIMES_HEIGHT * times[i]) / maxTime - FONT_GAP * 2
+    );
+    ctx.fillStyle = names[i] === NICKNAME ? RED_COLOR : RANDOM_COLOR;
+    ctx.fillRect(
+      X_COORDINATE,
+      CLOUD_HEIGHT - HEIGHT_FOR_TIME - FONT_GAP * 2,
+      BAR_WIDTH,
+      HEIGHT_FOR_TIME
+    );
+    ctx.fillStyle = BLACK_COLOR;
   }
 };

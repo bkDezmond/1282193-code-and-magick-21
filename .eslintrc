@@ -5,4 +5,5 @@ env:
   browser: true
 
 extends:
-  "htmlacademy/es5.5"
+  - htmlacademy/es5.5
+  - prettier
