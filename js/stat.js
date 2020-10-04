@@ -17,6 +17,7 @@ const WHITE_COLOR = `#fff`;
 const BLACK_COLOR = `#000`;
 const BLACK_OPACITY = `rgba(0, 0, 0, 0.7)`;
 const RED_COLOR = `rgba(255, 0, 0, 1)`;
+const NICKNAME = `Вы`;
 
 const renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -50,27 +51,26 @@ window.renderStatistics = function (ctx, names, times) {
   let maxTime = getMaxElement(times);
 
   for (let i = 0; i < names.length; i++) {
-    let X_COORDINATE = CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i;
-    let HEIGHT_FOR_TIME = (MAX_HEIGHT_BAR * times[i]) / maxTime;
-    let NICKNAME = `Вы`;
-    let RANDOM_COLOR = `hsl(237, ${100 * Math.random()}%, 50%)`;
+    const xCoordinate = CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i;
+    const heightForTime = (MAX_HEIGHT_BAR * times[i]) / maxTime;
+    const randomColor = `hsl(237, ${100 * Math.random()}%, 50%)`;
 
     ctx.fillText(
       names[i],
-      X_COORDINATE,
+      xCoordinate,
       CLOUD_Y + BAR_GAP + BAR_WIDTH + FONT_GAP + MAX_HEIGHT_BAR
     );
     ctx.fillText(
       Math.round(times[i]),
-      X_COORDINATE,
+      xCoordinate,
       CLOUD_HEIGHT - (TIMES_HEIGHT * times[i]) / maxTime - FONT_GAP * 2
     );
-    ctx.fillStyle = names[i] === NICKNAME ? RED_COLOR : RANDOM_COLOR;
+    ctx.fillStyle = names[i] === NICKNAME ? RED_COLOR : randomColor;
     ctx.fillRect(
-      X_COORDINATE,
-      CLOUD_HEIGHT - HEIGHT_FOR_TIME - FONT_GAP * 2,
+      xCoordinate,
+      CLOUD_HEIGHT - heightForTime - FONT_GAP * 2,
       BAR_WIDTH,
-      HEIGHT_FOR_TIME
+      heightForTime
     );
     ctx.fillStyle = BLACK_COLOR;
   }
